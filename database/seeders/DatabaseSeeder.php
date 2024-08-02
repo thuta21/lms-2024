@@ -2,8 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Models\Category;
+use App\Models\Department;
 use App\Models\User;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -13,11 +14,35 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
-
         User::factory()->create([
             'name' => 'Test User',
             'email' => 'test@example.com',
+        ]);
+
+        Department::factory()->create([
+            'name' => 'Computer Science',
+            'code' => 'CS',
+        ]);
+        Department::factory()->create([
+            'name' => 'Japanese',
+            'code' => 'japan',
+        ]);
+        Department::factory()->create([
+            'name' => 'German',
+            'code' => 'german',
+        ]);
+
+        Category::factory()->create([
+            'name' => 'Computer Science',
+            'code' => 'CS',
+        ]);
+        Category::factory()->create([
+            'name' => 'Japanese',
+            'code' => 'japan',
+        ]);
+        Category::factory()->create([
+            'name' => 'German',
+            'code' => 'german',
         ]);
     }
 }
