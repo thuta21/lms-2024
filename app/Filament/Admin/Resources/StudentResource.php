@@ -22,39 +22,7 @@ class StudentResource extends Resource
     public static function form(Form $form): Form
     {
         return $form
-            ->schema([
-                Forms\Components\TextInput::make('user_id')
-                    ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('title')
-                    ->required(),
-                Forms\Components\TextInput::make('first_name')
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('last_name')
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('gender'),
-                Forms\Components\DatePicker::make('date_of_birth'),
-                Forms\Components\TextInput::make('identity_type')
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('identity_number')
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('country')
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('nationality')
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('city')
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('township')
-                    ->maxLength(255),
-                Forms\Components\Textarea::make('address')
-                    ->columnSpanFull(),
-                Forms\Components\TextInput::make('contact_person')
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('contact_person_relationship')
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('contact_person_mobile_number')
-                    ->maxLength(255),
-            ]);
+            ->schema(Student::getForm());
     }
 
     public static function table(Table $table): Table

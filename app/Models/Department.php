@@ -21,6 +21,11 @@ class Department extends Model
         return $this->belongsToMany(Course::class);
     }
 
+    public function instructors(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Instructor::class);
+    }
+
     public static function getForm(): array
     {
         return [

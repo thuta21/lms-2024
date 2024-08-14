@@ -22,22 +22,7 @@ class InstructorResource extends Resource
     public static function form(Form $form): Form
     {
         return $form
-            ->schema([
-                Forms\Components\TextInput::make('user_id')
-                    ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('department_id')
-                    ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('title')
-                    ->required(),
-                Forms\Components\TextInput::make('gender')
-                    ->required(),
-                Forms\Components\TextInput::make('identity_type')
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('identity_number')
-                    ->maxLength(255),
-            ]);
+            ->schema(Instructor::getForm());
     }
 
     public static function table(Table $table): Table

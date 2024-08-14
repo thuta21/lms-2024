@@ -7,6 +7,11 @@ use App\Filament\Admin\Resources\UserResource\RelationManagers;
 use App\Models\User;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Infolists\Components\Group;
+use Filament\Infolists\Components\ImageEntry;
+use Filament\Infolists\Components\Section;
+use Filament\Infolists\Components\TextEntry;
+use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -22,32 +27,7 @@ class UserResource extends Resource
     public static function form(Form $form): Form
     {
         return $form
-            ->schema([
-                Forms\Components\TextInput::make('username')
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('name')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('email')
-                    ->email()
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('country_code')
-                    ->maxLength(3),
-                Forms\Components\TextInput::make('mobile_number')
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('status')
-                    ->required(),
-                Forms\Components\TextInput::make('role')
-                    ->required(),
-                Forms\Components\FileUpload::make('image')
-                    ->image(),
-                Forms\Components\DateTimePicker::make('email_verified_at'),
-                Forms\Components\TextInput::make('password')
-                    ->password()
-                    ->required()
-                    ->maxLength(255),
-            ]);
+            ->schema(User::getForm());
     }
 
     public static function table(Table $table): Table
@@ -88,6 +68,7 @@ class UserResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\ViewAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -103,12 +84,34 @@ class UserResource extends Resource
         ];
     }
 
+    public static function infolist(Infolist $infolist): Infolist
+    {
+        return $infolist->schema([
+            Section::make('Personal Information')
+                ->columns(3)
+                ->schema([
+                    ImageEntry::make('avatar')->circular(),
+                    Group::make()->columnSpan(2)->columns(2)
+                    ->schema([
+                        TextEntry::make('username'),
+                        TextEntry::make('name'),
+                        TextEntry::make('email'),
+                        TextEntry::make('country_code'),
+                        TextEntry::make('mobile_number'),
+                        TextEntry::make('status')->badge(),
+                        TextEntry::make('role')->badge(),
+                    ])
+                ])
+        ]);
+    }
+
     public static function getPages(): array
     {
         return [
             'index' => Pages\ListUsers::route('/'),
             'create' => Pages\CreateUser::route('/create'),
             'edit' => Pages\EditUser::route('/{record}/edit'),
+            'view' => Pages\ViewUser::route('/{record}'),
         ];
     }
 }

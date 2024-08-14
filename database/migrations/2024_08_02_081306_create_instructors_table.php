@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -12,11 +13,11 @@ return new class extends Migration {
     {
         Schema::create('instructors', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignIdFor(User::class)->nullable();
             $table->foreignId('department_id')->constrained()->onDelete('cascade');
             $table->enum('title', ['MR', 'MRS'])->default('MR');
             $table->enum('gender', ['MALE', 'FEMALE', 'OTHER'])->default('MALE');
-            $table->string('identity_type')->nullable();
+            $table->enum('identity_type', ['PASSPORT', 'NRC'])->nullable();
             $table->string('identity_number')->nullable();
             $table->timestamps();
         });

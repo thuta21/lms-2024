@@ -19,8 +19,8 @@ return new class extends Migration
             $table->string('country_code', 3)->nullable();
             $table->string('mobile_number')->nullable();
             $table->enum('status', ['ENABLED', 'DISABLED', 'BLOCKED'])->default('ENABLED');
-            $table->enum('role', ['USER', 'ADMIN'])->default('ADMIN');
-            $table->string('image')->nullable();
+            $table->enum('role', ['SUPER_ADMIN', 'INSTRUCTOR', 'STUDENT', 'PARENT'])->default('SUPER_ADMIN');
+            $table->text('avatar')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();

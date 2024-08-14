@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Enums\StatusEnum;
+use App\Enums\ContentStatus;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
@@ -45,8 +45,8 @@ class Lesson extends Model
                     ToggleButtons::make('status')
                         ->live()
                         ->inline()
-                        ->options(StatusEnum::class)
-                        ->default(StatusEnum::PUBLISHED->value)
+                        ->options(ContentStatus::class)
+                        ->default(ContentStatus::PUBLISHED->value)
                         ->required(),
                 ]),
         ];

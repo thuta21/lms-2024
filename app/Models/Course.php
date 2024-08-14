@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Enums\StatusEnum;
+use App\Enums\ContentStatus;
 use Filament\Forms\Components\Fieldset;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Section;
@@ -10,8 +10,10 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\ToggleButtons;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Course extends Model
 {
@@ -27,9 +29,14 @@ class Course extends Model
         'status',
     ];
 
-    public function categories(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    public function categories(): BelongsToMany
     {
         return $this->belongsToMany(Category::class);
+    }
+
+    public function instructors(): BelongsToMany
+    {
+        return $this->belongsToMany(Instructor::class, 'course_instructors');
     }
 
     public static function getForm(): array
@@ -69,9 +76,23 @@ class Course extends Model
                             ToggleButtons::make('status')
                                 ->live()
                                 ->inline()
-                                ->options(StatusEnum::class)
-                                ->default(StatusEnum::PUBLISHED->value)
+                                ->options(ContentStatus::class)
+                                ->default(ContentStatus::PUBLISHED->value)
                                 ->required(),
+                        ]),
+                    Fieldset::make('Relationships')
+                        ->schema([
+                            Select::make('instructors')
+                                ->searchable()
+                                ->preload()
+                                ->relationship('instructors', 'id')
+                                ->options(function () {
+                                    return Instructor::query()
+                                        ->with('user:id,name') // Eager load the user relationship
+                                        ->get()
+                                        ->pluck('user.name', 'id'); // Pluck user name and instructor ID
+                                })
+                                ->multiple(),
                         ])
                 ])
         ];
