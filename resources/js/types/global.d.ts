@@ -1,5 +1,5 @@
 import { AxiosInstance } from 'axios';
-import { route as ziggyRoute } from 'ziggy-js';
+import ziggyRoute, { Config as ZiggyConfig } from 'ziggy-js';
 
 declare global {
     interface Window {
@@ -7,4 +7,5 @@ declare global {
     }
 
     var route: typeof ziggyRoute;
+    var Ziggy: ZiggyConfig;
 }
